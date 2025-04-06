@@ -1,4 +1,3 @@
-let i2c_address = 48
 
 enum Motor {
     //% block="links"
@@ -91,6 +90,23 @@ namespace SmartCar {
         }
     }
 
+    const trig = DigitalPin.P14;
+    const echo = DigitalPin.P15;
+    
+    //% block="afstand (cm)"
+    export function ping(): number {
+      pins.setPull(trig, PinPullMode.PullNone);
+      pins.digitalWritePin(trig, 0);
+      control.waitMicros(2);
+      pins.digitalWritePin(trig, 1);
+      control.waitMicros(10);
+      pins.digitalWritePin(trig, 0);
+ 
+      const d = pins.pulseIn(echo, PulseValue.High, 500 * 58); // max 500 cm
+      return Math.idiv(d, 58);  // cm
+
+    }
+
 }
 
 function packRGB(r: number, g: number, b: number): number {
@@ -114,6 +130,6 @@ function i2c_w(reg: number, value: number) {
     let buf = pins.createBuffer(2)
     buf[0] = reg
     buf[1] = value
-    pins.i2cWriteBuffer(i2c_address, buf)
+    pins.i2cWriteBuffer(48, buf)
 }
 
