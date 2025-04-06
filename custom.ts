@@ -18,12 +18,6 @@ enum Led {
     //% block="rechts"
     L1 = 1
 }
-enum Sensor {
-  //% block="links"
-  I0 = 0,
-  //% block="rechts"
-  I1 = 1
-}
 
 //% color="#AA278D"
 namespace SmartCar {
@@ -115,15 +109,15 @@ namespace SmartCar {
     pins.setPull(DigitalPin.P12, PinPullMode.PullUp);
     pins.setPull(DigitalPin.P13, PinPullMode.PullUp);
 
-    //% block="sensor $Sensor"
+    //% block="IR sensor links"
     //% group="Infrarood sensor" weight=80
-    export function ir_sensor(sensor: Sensor): boolean {
-      if (sensor == 0) {   
-        return pins.digitalReadPin(DigitalPin.P12) == 0;
-      }
-      if (sensor == 1) {   
-        return pins.digitalReadPin(DigitalPin.P13) == 0;
-      }
+    export function ir_sensor_links(): boolean {
+      return pins.digitalReadPin(DigitalPin.P12) == 0;
+    }
+    //% block="IR sensor rechts"
+    //% group="Infrarood sensor" weight=81
+    export function ir_sensor_rechts(): boolean {
+      return pins.digitalReadPin(DigitalPin.P13) == 0;
     }
 
 }
