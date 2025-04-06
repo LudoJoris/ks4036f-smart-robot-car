@@ -76,7 +76,7 @@ namespace SmartCar {
         return packRGB(red, green, blue);
     }
 
-    //% block="LED $led kleur $rgb" 
+    //% block="LED $Led kleur $rgb" 
     //% group="LED" weight=65
     export function set_led(led: Led, rgb: number) {
         let r = 255 - unpackR(rgb);
