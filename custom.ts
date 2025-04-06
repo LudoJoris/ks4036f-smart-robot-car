@@ -115,8 +115,8 @@ namespace SmartCar {
     pins.setPull(DigitalPin.P12, PinPullMode.PullUp);
     pins.setPull(DigitalPin.P13, PinPullMode.PullUp);
 
-    //% block="ir sensor $Sensor"
-    //% group="IR sensors" weight=80
+    //% block="sensor $Sensor"
+    //% group="Infrarood sensor" weight=80
     export function ir_sensor(sensor: Sensor): number {
       if (sensor == 0) {   
         let val = pins.digitalReadPin(DigitalPin.P12);
