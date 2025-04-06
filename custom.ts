@@ -12,7 +12,7 @@ enum Richting {
     //% block="achteruit"
     D1 = 1
 }
-enum LED {
+enum Led {
     //% block="links"
     L0 = 0,
     //% block="rechts"
@@ -78,7 +78,7 @@ namespace SmartCar {
 
     //% block="LED $led kleur $rgb" 
     //% group="LED" weight=65
-    export function set_led(led: LED, rgb: number) {
+    export function set_led(led: Led, rgb: number) {
         let r = 255 - unpackR(rgb);
         let g = 255 - unpackG(rgb);
         let b = 255 - unpackB(rgb);
@@ -126,7 +126,7 @@ namespace SmartCar {
         let val = pins.digitalReadPin(DigitalPin.P13);
         return val;
       }
-}
+    }
 
 }
 
