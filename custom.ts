@@ -89,20 +89,20 @@ namespace SmartCar {
         }
     }
 
-    const trig = DigitalPin.P14;
-    const echo = DigitalPin.P15;
+//    const trig = DigitalPin.P14;
+//    const echo = DigitalPin.P15;
     pins.setPull(trig, PinPullMode.PullNone);
     
     //% block="afstand (cm)"
     //% group="Ultrasone sensor" weight=70
     export function ping(): number {
-      pins.digitalWritePin(trig, 0);
+      pins.digitalWritePin(DigitalPin.P14, 0);
       control.waitMicros(2);
-      pins.digitalWritePin(trig, 1);
+      pins.digitalWritePin(DigitalPin.P14, 1);
       control.waitMicros(10);
-      pins.digitalWritePin(trig, 0);
+      pins.digitalWritePin(DigitalPin.P14, 0);
  
-      let d = pins.pulseIn(echo, PulseValue.High, 500 * 58); // max 500 cm
+      let d = pins.pulseIn(DigitalPin.P15, PulseValue.High, 500 * 58); // max 500 cm
       return Math.idiv(d, 58);  // cm
     }
 
@@ -118,6 +118,17 @@ namespace SmartCar {
     //% group="Infrarood sensor" weight=81
     export function ir_sensor_rechts(): boolean {
       return pins.digitalReadPin(DigitalPin.P12) == 0;
+    }
+
+    //% block="LDR links"
+    //% group="Lichtgevoelige weerstand" weight=66
+    export function ldr_links(): number {
+      return pins.analogReadPin(AnalogPin.P1);
+    }
+    //% block="LDR rechts"
+    //% group="Lichtgevoelige weerstand" weight=66
+    export function ldr_rechts(): number {
+      return pins.analogReadPin(AnalogPin.P0);
     }
 
 }
