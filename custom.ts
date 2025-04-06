@@ -94,6 +94,7 @@ namespace SmartCar {
     const echo = DigitalPin.P15;
     
     //% block="afstand (cm)"
+    //% group="Ultrasone sensor" weight=70
     export function ping(): number {
       pins.setPull(trig, PinPullMode.PullNone);
       pins.digitalWritePin(trig, 0);
@@ -102,7 +103,7 @@ namespace SmartCar {
       control.waitMicros(10);
       pins.digitalWritePin(trig, 0);
  
-      const d = pins.pulseIn(echo, PulseValue.High, 500 * 58); // max 500 cm
+      d = pins.pulseIn(echo, PulseValue.High, 500 * 58); // max 500 cm
       return Math.idiv(d, 58);  // cm
 
     }
