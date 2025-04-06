@@ -117,14 +117,12 @@ namespace SmartCar {
 
     //% block="sensor $Sensor"
     //% group="Infrarood sensor" weight=80
-    export function ir_sensor(sensor: Sensor): number {
+    export function ir_sensor(sensor: Sensor): boolean {
       if (sensor == 0) {   
-        let val = pins.digitalReadPin(DigitalPin.P12);
-        return val;
+        return pins.digitalReadPin(DigitalPin.P12) == 0;
       }
       if (sensor == 1) {   
-        let val = pins.digitalReadPin(DigitalPin.P13);
-        return val;
+        return pins.digitalReadPin(DigitalPin.P13) == 0;
       }
     }
 
