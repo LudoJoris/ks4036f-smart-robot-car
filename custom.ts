@@ -1,5 +1,3 @@
-let i2c_addr = 0x30;
-
 enum Motor {
     //% block="links"
     M0 = 0,
@@ -149,6 +147,8 @@ function unpackB(rgb: number): number {
     //let b = (rgb) & 0xFF;
     //return b;
 }
+
+let i2c_addr = 0x30;
 
 function i2c_w(reg: number, value: number) {
     let buf = pins.createBuffer(2)
