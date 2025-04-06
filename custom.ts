@@ -1,3 +1,6 @@
+let i2c_addr = 0x30;
+let trig = DigitalPin.P14;
+let echo = DigitalPin.P15;  
 
 enum Motor {
     //% block="links"
@@ -90,9 +93,6 @@ namespace SmartCar {
         }
     }
 
-    const trig = DigitalPin.P14;
-    const echo = DigitalPin.P15;
-    
     //% block="afstand (cm)"
     //% group="Ultrasone sensor" weight=70
     export function ping(): number {
@@ -131,6 +131,6 @@ function i2c_w(reg: number, value: number) {
     let buf = pins.createBuffer(2)
     buf[0] = reg
     buf[1] = value
-    pins.i2cWriteBuffer(48, buf)
+    pins.i2cWriteBuffer(i2c_addr, buf)
 }
 
