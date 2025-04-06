@@ -89,7 +89,7 @@ namespace SmartCar {
 
 //    const trig = DigitalPin.P14;
 //    const echo = DigitalPin.P15;
-    pins.setPull(trig, PinPullMode.PullNone);
+    pins.setPull(DigitalPin.P14, PinPullMode.PullNone);
     
     //% block="afstand (cm)"
     //% group="Ultrasone sensor" weight=70
