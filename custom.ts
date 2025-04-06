@@ -112,12 +112,12 @@ namespace SmartCar {
     //% block="IR sensor links"
     //% group="Infrarood sensor" weight=80
     export function ir_sensor_links(): boolean {
-      return pins.digitalReadPin(DigitalPin.P12) == 0;
+      return pins.digitalReadPin(DigitalPin.P13) == 0;
     }
     //% block="IR sensor rechts"
     //% group="Infrarood sensor" weight=81
     export function ir_sensor_rechts(): boolean {
-      return pins.digitalReadPin(DigitalPin.P13) == 0;
+      return pins.digitalReadPin(DigitalPin.P12) == 0;
     }
 
 }
