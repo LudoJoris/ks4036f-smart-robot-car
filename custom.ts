@@ -1,6 +1,4 @@
 let i2c_addr = 0x30;
-let trig = DigitalPin.P14;
-let echo = DigitalPin.P15;  
 
 enum Motor {
     //% block="links"
@@ -93,19 +91,21 @@ namespace SmartCar {
         }
     }
 
+    const trig = DigitalPin.P14;
+    const echo = DigitalPin.P15;
+    pins.setPull(trig, PinPullMode.PullNone);
+    
     //% block="afstand (cm)"
     //% group="Ultrasone sensor" weight=70
     export function ping(): number {
-      pins.setPull(trig, PinPullMode.PullNone);
       pins.digitalWritePin(trig, 0);
       control.waitMicros(2);
       pins.digitalWritePin(trig, 1);
       control.waitMicros(10);
       pins.digitalWritePin(trig, 0);
  
-      d = pins.pulseIn(echo, PulseValue.High, 500 * 58); // max 500 cm
+      let d = pins.pulseIn(echo, PulseValue.High, 500 * 58); // max 500 cm
       return Math.idiv(d, 58);  // cm
-
     }
 
 }
