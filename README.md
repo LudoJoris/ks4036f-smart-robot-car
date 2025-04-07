@@ -1,4 +1,4 @@
-# Keyestudio Smart Robot Car for micro:bit
+# Keyestudio Smart Robot Car for micro:bit (KS4036F)
 
 #### MakeCode Uitbreiding
 
