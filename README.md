@@ -10,7 +10,9 @@ Deze repository kan als **uitbreiding** aan MakeCode worden toegevoegd.
 * Geef je project een naam en klik op **Aanmaken**
 * Klik op **Uitbreidingen** in het blokken menu of in het tandwiel menu
 * Kopieer **https://ludojoris.github.io/ks4036f-smart-robot-car/** in de zoekbalk
-* En importeer.
+* Enter of vergrootglas.
+* klik op **KS4036F Smart Robot Car**
+* De blokken worden toegevoegd aan het project
 
 #### Metagegevens (voor zoeken, renderen)
 
