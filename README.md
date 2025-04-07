@@ -1,24 +1,27 @@
+# Keyestudio Smart Robot Car for micro:bit
 
-> Open deze pagina op [https://ludojoris.github.io/ks4036f-smart-robot-car/](https://ludojoris.github.io/ks4036f-smart-robot-car/)
+#### MakeCode Uitbreiding
 
-## Gebruiken als extensie
+Deze repository kan als **uitbreiding** aan MakeCode worden toegevoegd.
 
-Deze repository kan worden toegevoegd als **extensie** in MakeCode.
+* Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
+* Klik op **Nieuw project**
+* Klik op **Uitbreidingen** in het blokken menu
+* Zoek naar **https://ludojoris.github.io/ks4036f-smart-robot-car/**
+* En importeer.
 
-* open [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* klik op **Nieuw project**
-* klik op **Extensies** onder het tandwielmenu
-* zoeken naar **https://github.com/ludojoris/ks4036f-smart-robot-car** en importeren
+#### Metagegevens (voor zoeken, renderen)
 
-## Dit project bewerken
-
-Om deze repository te bewerken in MakeCode.
-
-* open [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* klik op **Importeren** en klik vervolgens op **Importeer URL**
-* plak **https://github.com/ludojoris/ks4036f-smart-robot-car** en klik op importeren
-
-#### Metadata (gebruikt voor zoeken, rendering)
-
-* for PXT/microbit
+* voor PXT/microbit
 <script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>
+
+#### micro:bit GPIO pins
+
+IR-ontvanger = pin16  
+HC-SR04 ultrasone sensor trigger = pin14  
+HC-SR04 ultrasone sensor echo  = pin15  
+Lichtgevoelige weerstand links = pin1  
+Lichtgevoelige weerstand rechts = pin0  
+IR sensor links = pin12  
+IR sensor rechts = pin13  
+
