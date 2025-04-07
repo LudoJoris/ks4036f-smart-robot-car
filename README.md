@@ -7,7 +7,7 @@ Deze repository kan als **uitbreiding** aan MakeCode worden toegevoegd.
 * Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
 * Klik op **Nieuw project**
 * Klik op **Uitbreidingen** in het blokken menu
-* Zoek naar **https://ludojoris.github.io/ks4036f-smart-robot-car/**
+* Kopieer **https://ludojoris.github.io/ks4036f-smart-robot-car/** in de zoekbalk
 * En importeer.
 
 #### Metagegevens (voor zoeken, renderen)
