@@ -5,7 +5,7 @@
 Deze repository kan als **uitbreiding** aan MakeCode worden toegevoegd.
 
 * Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* kies Taal in het tandwiel menu (rechtsboven)
+* Kies Taal in het tandwiel menu (rechtsboven)
 * Klik op **Nieuw project**
 * Geef je project een naam en klik op **Aanmaken**
 * Klik op **Uitbreidingen** in het blokken menu of in het tandwiel menu
