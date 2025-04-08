@@ -100,6 +100,31 @@ namespace SmartCar {
       }
     }
 
+    //% block="LED $led uit" 
+    //% group="LED" weight=65
+    export function reset_led(led: Led) {
+      switch (led) {
+        case 0:
+          i2c_w(0x08, 0);
+          i2c_w(0x07, 0);
+          i2c_w(0x06, 0);
+          break;
+        case 1:
+          i2c_w(0x09, 0);
+          i2c_w(0x0a, 0);
+          i2c_w(0x05, 0);
+          break;
+        case 2:
+          i2c_w(0x08, 0);
+          i2c_w(0x07, 0);
+          i2c_w(0x06, 0);
+          i2c_w(0x09, 0);
+          i2c_w(0x0a, 0);
+          i2c_w(0x05, 0);
+          break;
+      }
+    }
+
     pins.setPull(DigitalPin.P14, PinPullMode.PullNone);
     //% block="afstand (cm)"
     //% group="Ultrasone sensor" weight=70
