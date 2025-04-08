@@ -14,7 +14,9 @@ enum Led {
     //% block="links"
     L0 = 0,
     //% block="rechts"
-    L1 = 1
+    L1 = 1,
+    //% block="beide"
+    L2 = 2
 }
 
 //% color="#AA278D"
@@ -68,7 +70,7 @@ namespace SmartCar {
         return packRGB(red, green, blue);
     }
 
-    //% block="LED $led kleur $rgb" 
+    //% block="LED $led met kleur $rgb" 
     //% group="LED" weight=65
     export function set_led(led: Led, rgb: number) {
         let r = 255 - unpackR(rgb);
@@ -81,6 +83,14 @@ namespace SmartCar {
             i2c_w(0x06, b);
         }
         if (led == 1) {
+            i2c_w(0x09, r);
+            i2c_w(0x0a, g);
+            i2c_w(0x05, b);
+        }
+        if (led == 2) {
+            i2c_w(0x08, r);
+            i2c_w(0x07, g);
+            i2c_w(0x06, b);
             i2c_w(0x09, r);
             i2c_w(0x0a, g);
             i2c_w(0x05, b);
