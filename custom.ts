@@ -1,22 +1,24 @@
 enum Motor {
-    //% block="links"
-    M0 = 0,
-    //% block="rechts"
-    M1 = 1
+  //% block="links"
+  M0 = 0,
+  //% block="rechts"
+  M1 = 1,
+  //% block="beide"
+  M2 = 2
 }
 enum Richting {
-    //% block="vooruit"
-    D0 = 0,
-    //% block="achteruit"
-    D1 = 1
+  //% block="vooruit"
+  D0 = 0,
+  //% block="achteruit"
+  D1 = 1
 }
 enum Led {
-    //% block="links"
-    L0 = 0,
-    //% block="rechts"
-    L1 = 1,
-    //% block="beide"
-    L2 = 2
+  //% block="links"
+  L0 = 0,
+  //% block="rechts"
+  L1 = 1,
+  //% block="beide"
+  L2 = 2
 }
 
 //% color="#AA278D"
@@ -26,26 +28,40 @@ namespace SmartCar {
     //% snelheid.min=0 snelheid.max=255 snelheid.defl=100
     //% group="Motor" weight=50
     export function motor(motor: Motor, richting: Richting, snelheid: number) {
-        if (motor == 0) {
-            if (richting == 0) {
-                i2c_w(0x01, 0);
-                i2c_w(0x02, snelheid);
-            }
-            if (richting == 1) {
-                i2c_w(0x01, snelheid);
-                i2c_w(0x02, 0);
-            }
+      if (motor == 0) {
+        if (richting == 0) {
+          i2c_w(0x01, 0);
+          i2c_w(0x02, snelheid);
         }
-        if (motor == 1) {
-            if (richting == 0) {
-                i2c_w(0x03, snelheid);
-                i2c_w(0x04, 0);
-            }
-            if (richting == 1) {
-                i2c_w(0x03, 0);
-                i2c_w(0x04, snelheid);
-            }
+        if (richting == 1) {
+          i2c_w(0x01, snelheid);
+          i2c_w(0x02, 0);
         }
+      }
+      if (motor == 1) {
+        if (richting == 0) {
+          i2c_w(0x03, snelheid);
+          i2c_w(0x04, 0);
+        }
+        if (richting == 1) {
+          i2c_w(0x03, 0);
+          i2c_w(0x04, snelheid);
+        }
+      }
+      if (motor == 2) {
+        if (richting == 0) {
+          i2c_w(0x01, 0);
+          i2c_w(0x02, snelheid);
+          i2c_w(0x03, snelheid);
+          i2c_w(0x04, 0);
+        }
+        if (richting == 1) {
+          i2c_w(0x01, snelheid);
+          i2c_w(0x02, 0);
+          i2c_w(0x03, 0);
+          i2c_w(0x04, snelheid);
+        }
+      }
     }
 
     //% block="motor $motor stop"
@@ -67,7 +83,7 @@ namespace SmartCar {
     //% blauw.min=0 blauw.max=255
     //% group="LED" weight=60
     export function rgb(red: number, green: number, blue: number): number {
-        return packRGB(red, green, blue);
+      return packRGB(red, green, blue);
     }
 
     //% block="LED $led met kleur $rgb" 
@@ -166,20 +182,16 @@ namespace SmartCar {
 }
 
 function packRGB(r: number, g: number, b: number): number {
-    return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+  return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
 }
 function unpackR(rgb: number): number {
-    let r = (rgb >> 16) & 0xFF;
-    return r;
+  return (rgb >> 16) & 0xFF;
 }
 function unpackG(rgb: number): number {
-    let g = (rgb >> 8) & 0xFF;
-    return g;
+  return (rgb >> 8) & 0xFF;
 }
 function unpackB(rgb: number): number {
-    return (rgb) & 0xFF;
-    //let b = (rgb) & 0xFF;
-    //return b;
+  return (rgb) & 0xFF;
 }
 
 let i2c_addr = 0x30;
