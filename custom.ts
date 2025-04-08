@@ -105,22 +105,22 @@ namespace SmartCar {
     export function reset_led(led: Led) {
       switch (led) {
         case 0:
-          i2c_w(0x08, 0);
-          i2c_w(0x07, 0);
-          i2c_w(0x06, 0);
+          i2c_w(0x08, 255);
+          i2c_w(0x07, 255);
+          i2c_w(0x06, 255);
           break;
         case 1:
-          i2c_w(0x09, 0);
-          i2c_w(0x0a, 0);
-          i2c_w(0x05, 0);
+          i2c_w(0x09, 255);
+          i2c_w(0x0a, 255);
+          i2c_w(0x05, 255);
           break;
         case 2:
-          i2c_w(0x08, 0);
-          i2c_w(0x07, 0);
-          i2c_w(0x06, 0);
-          i2c_w(0x09, 0);
-          i2c_w(0x0a, 0);
-          i2c_w(0x05, 0);
+          i2c_w(0x08, 255);
+          i2c_w(0x07, 255);
+          i2c_w(0x06, 255);
+          i2c_w(0x09, 255);
+          i2c_w(0x0a, 255);
+          i2c_w(0x05, 255);
           break;
       }
     }
