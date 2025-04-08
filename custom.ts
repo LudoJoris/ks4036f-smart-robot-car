@@ -75,6 +75,12 @@ namespace SmartCar {
         i2c_w(0x03, 0);
         i2c_w(0x04, 0);
       }
+      if (motor == 2) {
+        i2c_w(0x01, 0);
+        i2c_w(0x02, 0);
+        i2c_w(0x03, 0);
+        i2c_w(0x04, 0);
+      }
     }
 
     //% block="rood $red groen $green blauw $blue"
