@@ -51,14 +51,14 @@ namespace SmartCar {
     //% block="motor $motor stop"
     //% group="Motor" weight=55
     export function stop(motor: Motor) {
-        if (motor == 0) {
-            i2c_w(0x01, 0);
-            i2c_w(0x02, 0);
-        }
-        if (motor == 1) {
-            i2c_w(0x03, 0);
-            i2c_w(0x04, 0);
-        }
+      if (motor == 0) {
+        i2c_w(0x01, 0);
+        i2c_w(0x02, 0);
+      }
+      if (motor == 1) {
+        i2c_w(0x03, 0);
+        i2c_w(0x04, 0);
+      }
     }
 
     //% block="rood $red groen $green blauw $blue"
@@ -73,34 +73,34 @@ namespace SmartCar {
     //% block="LED $led met kleur $rgb" 
     //% group="LED" weight=65
     export function set_led(led: Led, rgb: number) {
-        let r = 255 - unpackR(rgb);
-        let g = 255 - unpackG(rgb);
-        let b = 255 - unpackB(rgb);
+    
+      let r = 255 - unpackR(rgb);
+      let g = 255 - unpackG(rgb);
+      let b = 255 - unpackB(rgb);
 
-        if (led == 0) {
-            i2c_w(0x08, r);
-            i2c_w(0x07, g);
-            i2c_w(0x06, b);
-        }
-        if (led == 1) {
-            i2c_w(0x09, r);
-            i2c_w(0x0a, g);
-            i2c_w(0x05, b);
-        }
-        if (led == 2) {
-            i2c_w(0x08, r);
-            i2c_w(0x07, g);
-            i2c_w(0x06, b);
-            i2c_w(0x09, r);
-            i2c_w(0x0a, g);
-            i2c_w(0x05, b);
-        }
+      switch (led) {
+        case 0:
+          i2c_w(0x08, r);
+          i2c_w(0x07, g);
+          i2c_w(0x06, b);
+          break;
+        case 1:
+          i2c_w(0x09, r);
+          i2c_w(0x0a, g);
+          i2c_w(0x05, b);
+          break;
+        case 2:
+          i2c_w(0x08, r);
+          i2c_w(0x07, g);
+          i2c_w(0x06, b);
+          i2c_w(0x09, r);
+          i2c_w(0x0a, g);
+          i2c_w(0x05, b);
+          break;
+      }
     }
 
-//    const trig = DigitalPin.P14;
-//    const echo = DigitalPin.P15;
     pins.setPull(DigitalPin.P14, PinPullMode.PullNone);
-    
     //% block="afstand (cm)"
     //% group="Ultrasone sensor" weight=70
     export function ping(): number {
@@ -116,7 +116,6 @@ namespace SmartCar {
 
     pins.setPull(DigitalPin.P12, PinPullMode.PullUp);
     pins.setPull(DigitalPin.P13, PinPullMode.PullUp);
-
     //% block="IR sensor links"
     //% group="Infrarood sensor" weight=80
     export function ir_sensor_links(): boolean {
