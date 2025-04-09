@@ -1,3 +1,7 @@
+let i2c_addr = 0x30;
+let right_bias = 0
+let left_bias = 0
+  
 enum Motor {
   //% block="links"
   M0 = 0,
@@ -20,52 +24,80 @@ enum Led {
   //% block="beide"
   L2 = 2
 }
+enum Bias {
+  //% block="links"
+  B0 = 0,
+  //% block="rechts"
+  B1 = 1
+}
+enum rgbLedColors {
+  //% block=rood
+  Red = 0x7F0000,
+  //% block=groen
+  Green = 0x007F00,
+  //% block=blauw
+  Blue = 0x00007F,
+  //% block=wit
+  White = 0x7F7F7F,
+  //% block=uit
+  Black = 0x000000,
+  //% block=geel
+  Yellow = 0x7F7F00,
+  //% block=cyaan
+  Cyan = 0x007F7F,
+  //% block=magenta
+  Magenta = 0x07F007F,
+  //% block=paars
+  Purple = 0xFF00FF,
+  //% block=oranje
+  Orange = 0xFFA000
+}
 
 //% color="#AA278D"
 namespace SmartCar {
 
+    //% group="Motor" weight=90 blockGap=4
     //% block="motor $motor richting $richting snelheid $snelheid"
     //% snelheid.min=0 snelheid.max=255 snelheid.defl=100
-    //% group="Motor" weight=50
     export function motor(motor: Motor, richting: Richting, snelheid: number) {
       if (motor == 0) {
         if (richting == 0) {
           i2c_w(0x01, 0);
-          i2c_w(0x02, snelheid);
+          i2c_w(0x02, snelheid + left_bias);
         }
         if (richting == 1) {
-          i2c_w(0x01, snelheid);
+          i2c_w(0x01, snelheid + left_bias);
           i2c_w(0x02, 0);
         }
       }
       if (motor == 1) {
         if (richting == 0) {
-          i2c_w(0x03, snelheid);
+          i2c_w(0x03, snelheid + right_bias);
           i2c_w(0x04, 0);
         }
         if (richting == 1) {
           i2c_w(0x03, 0);
-          i2c_w(0x04, snelheid);
+          i2c_w(0x04, snelheid + right_bias);
         }
       }
       if (motor == 2) {
         if (richting == 0) {
           i2c_w(0x01, 0);
-          i2c_w(0x02, snelheid);
-          i2c_w(0x03, snelheid);
+          i2c_w(0x02, snelheid + left_bias);
+          i2c_w(0x03, snelheid + left_bias);
           i2c_w(0x04, 0);
         }
         if (richting == 1) {
-          i2c_w(0x01, snelheid);
+          i2c_w(0x01, snelheid + right_bias);
           i2c_w(0x02, 0);
           i2c_w(0x03, 0);
-          i2c_w(0x04, snelheid);
+          i2c_w(0x04, snelheid + right_bias);
         }
       }
     }
 
+    //% group="Motor" weight=85  blockGap=4
     //% block="motor $motor stop"
-    //% group="Motor" weight=55
     export function stop(motor: Motor) {
       if (motor == 0) {
         i2c_w(0x01, 0);
@@ -82,18 +114,37 @@ namespace SmartCar {
         i2c_w(0x04, 0);
       }
     }
+  
+   /**
+     * pas motor snelheid aan, blijft van kracht tot herstart
+     * kies voor de zwakste motor
+     */
+    //% group="Motor" weight=80 blockGap=4
+    //% block="motor %motor plus %bias"
+    //% bias.min=0 bias.max=30
+    export function set_bias(motor: Bias, bias: number): void {
+      switch (motor) {
+        case 0:
+          left_bias = bias;
+          break;
+        case 1:
+          right_bias = bias;
+          break;
+      }
+    }
 
+  
+    //% group="LED" weight=50 blockGap=4
     //% block="rood $red groen $green blauw $blue"
-    //% rood.min=0 rood.max=255
-    //% groen.min=0 groen.max=255
-    //% blauw.min=0 blauw.max=255
-    //% group="LED" weight=60
+    //% rood.min=0 rood.max=255 rood.defl=0
+    //% groen.min=0 groen.max=255 groen.defl=0
+    //% blauw.min=0 blauw.max=255 blauw.defl=0
     export function rgb(red: number, green: number, blue: number): number {
       return packRGB(red, green, blue);
     }
 
+    //% group="LED" weight=70 blockGap=4
     //% block="LED $led met kleur $rgb" 
-    //% group="LED" weight=65
     export function set_led(led: Led, rgb: number) {
     
       let r = 255 - unpackR(rgb);
@@ -122,8 +173,8 @@ namespace SmartCar {
       }
     }
 
+    //% group="LED" weight=60 blockGap=8
     //% block="LED $led uit" 
-    //% group="LED" weight=65
     export function reset_led(led: Led) {
       switch (led) {
         case 0:
@@ -146,11 +197,19 @@ namespace SmartCar {
           break;
       }
     }
+    
+    //% group="LED" weight=40 blockGap=8
+    //% block="%color"
+    export function colors(color: rgbLedColors): number {
+      return color;
+    }
+
 
     pins.setPull(DigitalPin.P14, PinPullMode.PullNone);
+    //% group="Ultrasone sensor" weight=70 blockGap=4
     //% block="afstand (cm)"
-    //% group="Ultrasone sensor" weight=70
     export function ping(): number {
+
       pins.digitalWritePin(DigitalPin.P14, 0);
       control.waitMicros(2);
       pins.digitalWritePin(DigitalPin.P14, 1);
@@ -161,26 +220,30 @@ namespace SmartCar {
       return Math.idiv(d, 58);  // cm
     }
 
+
     pins.setPull(DigitalPin.P12, PinPullMode.PullUp);
     pins.setPull(DigitalPin.P13, PinPullMode.PullUp);
+    //% group="Infrarood sensor" weight=80 blockGap=6
     //% block="IR sensor links"
-    //% group="Infrarood sensor" weight=80
     export function ir_sensor_links(): boolean {
-      return pins.digitalReadPin(DigitalPin.P13) == 0;
-    }
-    //% block="IR sensor rechts"
-    //% group="Infrarood sensor" weight=81
-    export function ir_sensor_rechts(): boolean {
-      return pins.digitalReadPin(DigitalPin.P12) == 0;
+      return pins.digitalReadPin(DigitalPin.P13) == 1;
     }
 
+    //% group="Infrarood sensor" weight=70 blockGap=6
+    //% block="IR sensor rechts"
+    export function ir_sensor_rechts(): boolean {
+      return pins.digitalReadPin(DigitalPin.P12) == 1;
+    }
+
+
+    //% group="Lichtgevoelige weerstand" weight=60 blockGap=6
     //% block="LDR links"
-    //% group="Lichtgevoelige weerstand" weight=66
     export function ldr_links(): number {
       return pins.analogReadPin(AnalogPin.P1);
     }
+
+    //% group="Lichtgevoelige weerstand" weight=50 blockGap=6
     //% block="LDR rechts"
-    //% group="Lichtgevoelige weerstand" weight=66
     export function ldr_rechts(): number {
       return pins.analogReadPin(AnalogPin.P0);
     }
@@ -199,8 +262,6 @@ function unpackG(rgb: number): number {
 function unpackB(rgb: number): number {
   return (rgb) & 0xFF;
 }
-
-let i2c_addr = 0x30;
 
 function i2c_w(reg: number, value: number) {
     let buf = pins.createBuffer(2)
