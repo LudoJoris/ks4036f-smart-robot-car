@@ -46,11 +46,7 @@ enum rgbLedColors {
   //% block=cyaan
   Cyan = 0x007F7F,
   //% block=magenta
-  Magenta = 0x07F007F,
-  //% block=paars
-  Purple = 0xFF00FF,
-  //% block=oranje
-  Orange = 0xFFA000
+  Magenta = 0x07F007F
 }
 
 //% color="#AA278D"
@@ -134,15 +130,6 @@ namespace SmartCar {
     }
 
   
-    //% group="LED" weight=50 blockGap=4
-    //% block="rood $red groen $green blauw $blue"
-    //% rood.min=0 rood.max=255 rood.defl=0
-    //% groen.min=0 groen.max=255 groen.defl=0
-    //% blauw.min=0 blauw.max=255 blauw.defl=0
-    export function rgb(red: number, green: number, blue: number): number {
-      return packRGB(red, green, blue);
-    }
-
     //% group="LED" weight=70 blockGap=4
     //% block="LED $led met kleur $rgb" 
     export function set_led(led: Led, rgb: number) {
@@ -198,6 +185,15 @@ namespace SmartCar {
       }
     }
     
+    //% group="LED" weight=50 blockGap=8
+    //% block="rood $red groen $green blauw $blue"
+    //% rood.min=0 rood.max=255 rood.defl=0
+    //% groen.min=0 groen.max=255 groen.defl=0
+    //% blauw.min=0 blauw.max=255 blauw.defl=0
+    export function rgb(red: number, green: number, blue: number): number {
+      return packRGB(red, green, blue);
+    }
+
     //% group="LED" weight=40 blockGap=8
     //% block="%color"
     export function colors(color: rgbLedColors): number {
