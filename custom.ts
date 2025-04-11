@@ -1,6 +1,6 @@
 let i2c_addr = 0x30;
-let right_bias = 0
 let left_bias = 0
+let right_bias = 0
   
 enum Motor {
   //% block="links"
@@ -122,8 +122,10 @@ namespace SmartCar {
       switch (motor) {
         case 0:
           left_bias = bias;
+          right_bias = 0;
           break;
         case 1:
+          left_bias = 0;
           right_bias = bias;
           break;
       }
