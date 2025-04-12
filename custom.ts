@@ -1,6 +1,7 @@
 let i2c_addr = 0x30;
-let left_bias = 0
-let right_bias = 0
+let left_bias = 0;
+let right_bias = 0;
+let speed = 0;
 
 enum LR {
   //% block="links"
@@ -23,13 +24,13 @@ enum Motor {
   //% block="rechts"
   M1 = 1,
   //% block="beide"
-  M2 = 2
+  M2 = 2,
 }
 enum Richting {
   //% block="vooruit"
   D0 = 0,
   //% block="achteruit"
-  D1 = 1
+  D1 = 1,
 }
 enum Led {
   //% block="links"
@@ -37,13 +38,13 @@ enum Led {
   //% block="rechts"
   L1 = 1,
   //% block="beide"
-  L2 = 2
+  L2 = 2,
 }
 enum Bias {
   //% block="links"
   B0 = 0,
   //% block="rechts"
-  B1 = 1
+  B1 = 1,
 }
 enum rgbLedColors {
   //% block=rood
@@ -61,7 +62,7 @@ enum rgbLedColors {
   //% block=cyaan
   Cyan = 0x007F7F,
   //% block=magenta
-  Magenta = 0x07F007F
+  Magenta = 0x07F007F,
 }
 
 //% color="#AA278D"
@@ -74,35 +75,35 @@ namespace SmartCar {
       if (motor == 0) {
         if (richting == 0) {
           i2c_w(0x01, 0);
-          i2c_w(0x02, snelheid * left_bias);
+          i2c_w(0x02, snelheid + left_bias);
         }
         if (richting == 1) {
-          i2c_w(0x01, snelheid * left_bias);
+          i2c_w(0x01, snelheid + left_bias);
           i2c_w(0x02, 0);
         }
       }
       if (motor == 1) {
         if (richting == 0) {
-          i2c_w(0x03, snelheid * right_bias);
+          i2c_w(0x03, snelheid + right_bias);
           i2c_w(0x04, 0);
         }
         if (richting == 1) {
           i2c_w(0x03, 0);
-          i2c_w(0x04, snelheid * right_bias);
+          i2c_w(0x04, snelheid + right_bias);
         }
       }
       if (motor == 2) {
         if (richting == 0) {
           i2c_w(0x01, 0);
-          i2c_w(0x02, snelheid * left_bias);
-          i2c_w(0x03, snelheid * left_bias);
+          i2c_w(0x02, snelheid + left_bias);
+          i2c_w(0x03, snelheid + left_bias);
           i2c_w(0x04, 0);
         }
         if (richting == 1) {
-          i2c_w(0x01, snelheid * right_bias);
+          i2c_w(0x01, snelheid + right_bias);
           i2c_w(0x02, 0);
           i2c_w(0x03, 0);
-          i2c_w(0x04, snelheid * right_bias);
+          i2c_w(0x04, snelheid + right_bias);
         }
       }
     }
@@ -125,6 +126,23 @@ namespace SmartCar {
         i2c_w(0x04, 0);
       }
     }
+
+  //% block="snelheid"
+  //% group="Motor"
+  export function get_speed(): number {
+    return speed
+  }
+  
+  //% block="motor bias $motor"
+  //% group="Motor"
+  export function get_bias(motor: LR): number {
+    if (motor == 0) {
+      return left_bias
+    }
+    if (motor == 1) {
+      return right_bias
+    }
+  }
   
    /**
      * pas motor snelheid aan, blijft van kracht tot herstart
@@ -230,7 +248,7 @@ namespace SmartCar {
       pins.digitalWritePin(DigitalPin.P14, 0);
  
       let d = pins.pulseIn(DigitalPin.P15, PulseValue.High, 500 * 58); // max 500 cm
-      return Math.idiv(d, 58);  // cm
+      return Math.floor(d / 58);  // cm
     }
 
 
