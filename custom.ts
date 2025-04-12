@@ -138,7 +138,7 @@ namespace SmartCar {
   //% block="motor bias $motor"
   //% group="Motor"
   export function get_bias(motor: LR): number {
-    bias = 0;
+    let bias = 0;
     if (motor == 0) {
       bias = left_bias;
     }
