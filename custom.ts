@@ -1,7 +1,22 @@
 let i2c_addr = 0x30;
 let left_bias = 0
 let right_bias = 0
-  
+
+enum LR {
+  //% block="links"
+  L = 0,
+  //% block="rechts"
+  R = 1,
+}
+enum LRB {
+  //% block="links"
+  L = 0,
+  //% block="rechts"
+  R = 1,
+  //% block="beide"
+  B = 2,
+}
+
 enum Motor {
   //% block="links"
   M0 = 0,
@@ -55,46 +70,46 @@ namespace SmartCar {
     //% group="Motor" weight=90 blockGap=4
     //% block="motor $motor richting $richting snelheid $snelheid"
     //% snelheid.min=0 snelheid.max=255 snelheid.defl=100
-    export function motor(motor: Motor, richting: Richting, snelheid: number) {
+    export function motor(motor: LRB, richting: Richting, snelheid: number) {
       if (motor == 0) {
         if (richting == 0) {
           i2c_w(0x01, 0);
-          i2c_w(0x02, snelheid + left_bias);
+          i2c_w(0x02, snelheid * left_bias);
         }
         if (richting == 1) {
-          i2c_w(0x01, snelheid + left_bias);
+          i2c_w(0x01, snelheid * left_bias);
           i2c_w(0x02, 0);
         }
       }
       if (motor == 1) {
         if (richting == 0) {
-          i2c_w(0x03, snelheid + right_bias);
+          i2c_w(0x03, snelheid * right_bias);
           i2c_w(0x04, 0);
         }
         if (richting == 1) {
           i2c_w(0x03, 0);
-          i2c_w(0x04, snelheid + right_bias);
+          i2c_w(0x04, snelheid * right_bias);
         }
       }
       if (motor == 2) {
         if (richting == 0) {
           i2c_w(0x01, 0);
-          i2c_w(0x02, snelheid + left_bias);
-          i2c_w(0x03, snelheid + left_bias);
+          i2c_w(0x02, snelheid * left_bias);
+          i2c_w(0x03, snelheid * left_bias);
           i2c_w(0x04, 0);
         }
         if (richting == 1) {
-          i2c_w(0x01, snelheid + right_bias);
+          i2c_w(0x01, snelheid * right_bias);
           i2c_w(0x02, 0);
           i2c_w(0x03, 0);
-          i2c_w(0x04, snelheid + right_bias);
+          i2c_w(0x04, snelheid * right_bias);
         }
       }
     }
 
     //% group="Motor" weight=85  blockGap=4
     //% block="motor $motor stop"
-    export function stop(motor: Motor) {
+    export function stop(motor: LRB) {
       if (motor == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, 0);
@@ -118,15 +133,15 @@ namespace SmartCar {
     //% group="Motor" weight=80 blockGap=4
     //% block="motor %motor plus %bias"
     //% bias.min=0 bias.max=30
-    export function set_bias(motor: Bias, bias: number): void {
+    export function set_bias(motor: LR, bias: number): void {
       switch (motor) {
         case 0:
-          left_bias = bias;
+          left_bias = Math.floor((100 + bias) / 100);
           right_bias = 0;
           break;
         case 1:
           left_bias = 0;
-          right_bias = bias;
+          right_bias = Math.floor((100 + bias) / 100);
           break;
       }
     }
