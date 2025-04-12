@@ -130,17 +130,17 @@ namespace SmartCar {
   //% block="snelheid"
   //% group="Motor"
   export function get_speed(): number {
-    return speed
+    return speed;
   }
   
   //% block="motor bias $motor"
   //% group="Motor"
   export function get_bias(motor: LR): number {
     if (motor == 0) {
-      return left_bias
+      return left_bias;
     }
     if (motor == 1) {
-      return right_bias
+      return right_bias;
     }
   }
   
@@ -152,15 +152,13 @@ namespace SmartCar {
     //% block="motor %motor plus %bias"
     //% bias.min=0 bias.max=30
     export function set_bias(motor: LR, bias: number): void {
-      switch (motor) {
-        case 0:
-          left_bias = Math.floor((100 + bias) / 100);
-          right_bias = 0;
-          break;
-        case 1:
-          left_bias = 0;
-          right_bias = Math.floor((100 + bias) / 100);
-          break;
+      left_bias = 0;
+      right_bias = 0;
+      if (motor == 0) {
+        left_bias = Math.floor((100 + bias) / 100);
+      }
+      if (motor == 1) {
+        right_bias = Math.floor((100 + bias) / 100);
       }
     }
 
