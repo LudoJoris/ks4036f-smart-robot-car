@@ -20,35 +20,35 @@ enum LRB {
   B = 2,
 }
 
-enum Motor {
+//enum Motor {
   //% block="links"
-  M0 = 0,
+  //M0 = 0,
   //% block="rechts"
-  M1 = 1,
+  //M1 = 1,
   //% block="beide"
-  M2 = 2,
-}
+  //M2 = 2,
+//}
 enum Richting {
   //% block="vooruit"
   D0 = 0,
   //% block="achteruit"
   D1 = 1,
 }
-enum Led {
+//enum Led {
   //% block="links"
-  L0 = 0,
+  //L0 = 0,
   //% block="rechts"
-  L1 = 1,
+  //L1 = 1,
   //% block="beide"
-  L2 = 2,
-}
-enum Bias {
+  //L2 = 2,
+//}
+//enum Bias {
   //% block="links"
-  B0 = 0,
+  //B0 = 0,
   //% block="rechts"
-  B1 = 1,
-}
-enum rgbLedColors {
+  //B1 = 1,
+//}
+enum RGB {
   //% block=rood
   Red = 0x7F0000,
   //% block=groen
@@ -129,26 +129,13 @@ namespace SmartCar {
       }
     }
 
-  //% block="snelheid"
-  //% group="Motor"
-  export function get_speed(): number {
-    return speed;
-  }
-  
-  //% block="motor bias $motor"
-  //% group="Motor"
-  export function get_bias(motor: LR): number {
-    let bias = 0;
-    if (motor == 0) {
-      bias = left_bias;
+    //% block="snelheid"
+    //% group="Motor"
+    export function get_speed(): number {
+      return speed;
     }
-    if (motor == 1) {
-      bias = right_bias;
-    }
-    return bias;
-  }
   
-   /**
+    /**
      * pas motor snelheid aan, blijft van kracht tot herstart
      * kies voor de zwakste motor
      */
@@ -165,11 +152,24 @@ namespace SmartCar {
         right_bias = Math.floor((100 + bias) / 100);
       }
     }
+    //% block="motor bias $motor"
+    //% group="Motor"
+    export function get_bias(motor: LR): number {
+      let bias = 0;
+      if (motor == 0) {
+        bias = left_bias;
+      }
+      if (motor == 1) {
+        bias = right_bias;
+      }
+      return bias;
+    }
+  
 
   
     //% group="LED" weight=70 blockGap=4
     //% block="LED $led met kleur $rgb" 
-    export function set_led(led: Led, rgb: number) {
+    export function set_led(led: LR, rgb: number) {
     
       let r = 255 - unpackR(rgb);
       let g = 255 - unpackG(rgb);
@@ -199,7 +199,7 @@ namespace SmartCar {
 
     //% group="LED" weight=60 blockGap=8
     //% block="LED $led uit" 
-    export function reset_led(led: Led) {
+    export function reset_led(led: LR) {
       switch (led) {
         case 0:
           i2c_w(0x08, 255);
@@ -233,7 +233,7 @@ namespace SmartCar {
 
     //% group="LED" weight=40 blockGap=8
     //% block="%color"
-    export function colors(color: rgbLedColors): number {
+    export function colors(color: RGB): number {
       return color;
     }
 
