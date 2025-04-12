@@ -1,3 +1,5 @@
+// https://ludojoris.github.io/microbit-ks4036f/
+
 let i2c_addr = 0x30;
 let left_bias = 0;
 let right_bias = 0;
