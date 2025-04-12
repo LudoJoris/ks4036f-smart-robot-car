@@ -152,14 +152,14 @@ namespace SmartCar {
     //% block="motor %motor plus %bias"
     //% bias.min=0 bias.max=30
     export function set_bias(motor: LR, bias: number): void {
-      left_bias = 0;
-      right_bias = 0;
+      bias = 0;
       if (motor == 0) {
-        left_bias = Math.floor((100 + bias) / 100);
+        bias = Math.floor((100 + bias) / 100);
       }
       if (motor == 1) {
-        right_bias = Math.floor((100 + bias) / 100);
+        bias = Math.floor((100 + bias) / 100);
       }
+      return bias;
     }
 
   
