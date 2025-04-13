@@ -54,7 +54,7 @@ namespace SmartCar {
   //% speed.min=0 speed.max=255
   export function motor(motor: LRB, richting: Richting, speed: number) {
     if (motor == 0) {
-      left_speed = speed * left_bias;
+      left_speed = speed + left_bias;
       if (richting == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, left_speed);
@@ -65,7 +65,7 @@ namespace SmartCar {
       }
     }
     if (motor == 1) {
-      right_speed = speed * right_bias;
+      right_speed = speed + right_bias;
       if (richting == 0) {
         i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
@@ -76,8 +76,8 @@ namespace SmartCar {
       }
     }
     if (motor == 2) {
-      left_speed = speed * left_bias;
-      right_speed = speed * right_bias;
+      left_speed = speed + left_bias;
+      right_speed = speed + right_bias;
       if (richting == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, left_speed);
