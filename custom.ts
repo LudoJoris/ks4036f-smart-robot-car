@@ -49,42 +49,46 @@ namespace SmartCar {
   let left_speed = 0;
   let right_speed = 0;
 
-  //% block="motor $motor richting $richting snelheid $snelheid"
+  //% block="motor $motor richting $richting snelheid $speed"
   //% group="Motor" weight=90 blockGap=4
-  //% snelheid.min=0 snelheid.max=255
-  export function motor(motor: LRB, richting: Richting, snelheid: number) {
+  //% speed.min=0 speed.max=255
+  export function motor(motor: LRB, richting: Richting, speed: number) {
     if (motor == 0) {
+      left_speed = speed * left_bias;
       if (richting == 0) {
         i2c_w(0x01, 0);
-        i2c_w(0x02, snelheid + left_bias);
+        i2c_w(0x02, left_speed);
       }
       if (richting == 1) {
-        i2c_w(0x01, snelheid + left_bias);
+        i2c_w(0x01, left_speed);
         i2c_w(0x02, 0);
       }
     }
     if (motor == 1) {
+      right_speed = speed * right_bias;
       if (richting == 0) {
-        i2c_w(0x03, snelheid + right_bias);
+        i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
       }
       if (richting == 1) {
         i2c_w(0x03, 0);
-        i2c_w(0x04, snelheid + right_bias);
+        i2c_w(0x04, right_speed);
       }
     }
     if (motor == 2) {
+      left_speed = speed * left_bias;
+      right_speed = speed * right_bias;
       if (richting == 0) {
         i2c_w(0x01, 0);
-        i2c_w(0x02, snelheid + left_bias);
-        i2c_w(0x03, snelheid + left_bias);
+        i2c_w(0x02, left_speed);
+        i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
       }
       if (richting == 1) {
-        i2c_w(0x01, snelheid + right_bias);
+        i2c_w(0x01, left_speed);
         i2c_w(0x02, 0);
         i2c_w(0x03, 0);
-        i2c_w(0x04, snelheid + right_bias);
+        i2c_w(0x04, right_speed);
       }
     }
   }
@@ -127,10 +131,10 @@ namespace SmartCar {
     left_bias = 0;
     right_bias = 0;
     if (motor == 0) {
-      left_bias = Math.floor((100 + bias) / 100);
+      left_bias = Math.round((100 + bias) / 100);
     }
     if (motor == 1) {
-      right_bias = Math.floor((100 + bias) / 100);
+      right_bias = Math.round((100 + bias) / 100);
     }
   }
 
@@ -149,7 +153,7 @@ namespace SmartCar {
   
   //% block="LED $led met kleur $rgb" 
   //% group="LED" weight=70 blockGap=4
-  export function set_led(led: LR, rgb: number) {
+  export function set_led(led: LRB, rgb: number) {
     
     let r = 255 - unpackR(rgb);
     let g = 255 - unpackG(rgb);
@@ -179,7 +183,7 @@ namespace SmartCar {
 
   //% block="LED $led uit" 
   //% group="LED" weight=60 blockGap=8
-  export function reset_led(led: LR) {
+  export function reset_led(led: LRB) {
     switch (led) {
       case 0:
         i2c_w(0x08, 255);
@@ -282,3 +286,4 @@ function i2c_w(reg: number, value: number) {
   buf[1] = value
   pins.i2cWriteBuffer(i2c_addr, buf)
 }
+
