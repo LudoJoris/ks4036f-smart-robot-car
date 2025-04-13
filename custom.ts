@@ -131,10 +131,10 @@ namespace SmartCar {
     left_bias = 0;
     right_bias = 0;
     if (motor == 0) {
-      left_bias = bias);
+      left_bias = bias;
     }
     if (motor == 1) {
-      right_bias = bias);
+      right_bias = bias;
     }
   }
 
