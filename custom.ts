@@ -150,6 +150,21 @@ namespace SmartCar {
     return 0;
   }
 
+  //% block="spin %LR met snelheid %speed gedurende %ms ms"
+  //% group="Motor"
+  export function spin(direction: LR, speed: number, ms: number): void {
+    if (direction == 0) {
+      motor(0, 0, speed);
+      motor(1, 1, speed);
+    }
+    if (direction == 1) {
+      motor(0, 1, speed);
+      motor(1, 0, speed);
+    }
+    basic.pause(ms);
+    stop(2);
+  }
+
   
   //% block="LED $led met kleur $rgb" 
   //% group="LED" weight=70 blockGap=4
