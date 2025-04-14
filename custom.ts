@@ -16,7 +16,7 @@ enum LRB {
   //% block="beide"
   B = 2,
 }
-enum Richting {
+enum Direction {
   //% block="vooruit"
   D0 = 0,
   //% block="achteruit"
@@ -49,28 +49,28 @@ namespace SmartCar {
   let left_speed = 0;
   let right_speed = 0;
 
-  //% block="motor $motor richting $richting snelheid $speed"
+  //% block="motor $motor richting $direction snelheid $speed"
   //% group="Motor" weight=90 blockGap=4
   //% speed.min=0 speed.max=255
-  export function motor(motor: LRB, richting: Richting, speed: number) {
+  export function motor(motor: LRB, direction: Direction, speed: number) {
     if (motor == 0) {
       left_speed = speed + left_bias;
-      if (richting == 0) {
+      if (direction == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, left_speed);
       }
-      if (richting == 1) {
+      if (direction == 1) {
         i2c_w(0x01, left_speed);
         i2c_w(0x02, 0);
       }
     }
     if (motor == 1) {
       right_speed = speed + right_bias;
-      if (richting == 0) {
+      if (direction == 0) {
         i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
       }
-      if (richting == 1) {
+      if (direction == 1) {
         i2c_w(0x03, 0);
         i2c_w(0x04, right_speed);
       }
@@ -78,13 +78,13 @@ namespace SmartCar {
     if (motor == 2) {
       left_speed = speed + left_bias;
       right_speed = speed + right_bias;
-      if (richting == 0) {
+      if (direction == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, left_speed);
         i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
       }
-      if (richting == 1) {
+      if (direction == 1) {
         i2c_w(0x01, left_speed);
         i2c_w(0x02, 0);
         i2c_w(0x03, 0);
@@ -153,13 +153,15 @@ namespace SmartCar {
   //% block="spin %LR met snelheid %speed gedurende %ms ms"
   //% group="Motor"
   export function spin(direction: LR, speed: number, ms: number): void {
+    left_speed = speed + left_bias;
+    right_speed = speed + right_bias;
     if (direction == 0) {
-      motor(0, 0, speed);
-      motor(1, 1, speed);
+      motor(0, 1, left_speed);
+      motor(1, 0, right_speed);
     }
     if (direction == 1) {
-      motor(0, 1, speed);
-      motor(1, 0, speed);
+      motor(0, 0, left_speed);
+      motor(1, 1, right_speed);
     }
     basic.pause(ms);
     stop(2);
