@@ -172,9 +172,9 @@ namespace SmartCar {
   //% group="LED" weight=70 blockGap=4
   export function set_led(led: LRB, rgb: number) {
     
-    let r = 255 - unpackR(rgb);
-    let g = 255 - unpackG(rgb);
-    let b = 255 - unpackB(rgb);
+    let r = 255 - unpack_red(rgb);
+    let g = 255 - unpack_green(rgb);
+    let b = 255 - unpack_blue(rgb);
 
     switch (led) {
       case 0:
@@ -200,6 +200,7 @@ namespace SmartCar {
 
   //% block="LED $led uit" 
   //% group="LED" weight=60 blockGap=8
+  // LED lights are common anode, 255 is off and 0 is brightest
   export function reset_led(led: LRB) {
     switch (led) {
       case 0:
@@ -229,7 +230,7 @@ namespace SmartCar {
   //% groen.min=0 groen.max=255
   //% blauw.min=0 blauw.max=255
   export function rgb(red: number, green: number, blue: number): number {
-    return packRGB(red, green, blue);
+    return pack_RGB(red, green, blue);
   }
 
   //% block="$color"
@@ -284,16 +285,16 @@ namespace SmartCar {
 
 }
 
-function packRGB(r: number, g: number, b: number): number {
+function pack_RGB(r: number, g: number, b: number): number {
   return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
 }
-function unpackR(rgb: number): number {
+function unpack_red(rgb: number): number {
   return (rgb >> 16) & 0xFF;
 }
-function unpackG(rgb: number): number {
+function unpack_green(rgb: number): number {
   return (rgb >> 8) & 0xFF;
 }
-function unpackB(rgb: number): number {
+function unpack_blue(rgb: number): number {
   return (rgb) & 0xFF;
 }
 
