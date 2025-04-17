@@ -6,7 +6,7 @@ enum LR {
   //% block="links"
   L = 0,
   //% block="rechts"
-  R = 1,
+  R = 1
 }
 enum LRB {
   //% block="links"
@@ -14,13 +14,13 @@ enum LRB {
   //% block="rechts"
   R = 1,
   //% block="beide"
-  B = 2,
+  B = 2
 }
 enum Direction {
   //% block="vooruit"
   D0 = 0,
   //% block="achteruit"
-  D1 = 1,
+  D1 = 1
 }
 enum RGB {
   //% block=rood
@@ -38,7 +38,7 @@ enum RGB {
   //% block=cyaan
   Cyan = 0x007F7F,
   //% block=magenta
-  Magenta = 0x07F007F,
+  Magenta = 0x07F007F
 }
 
 //% color="#AA278D"
@@ -49,43 +49,43 @@ namespace SmartCar {
   let left_speed = 0;
   let right_speed = 0;
 
-  //% block="motor $motor richting $direction snelheid $speed"
+  //% block="motor $m richting $d snelheid $s"
   //% group="Motor" weight=90 blockGap=4
-  //% speed.min=0 speed.max=255
+  //% s.min=0 s.max=255
   // how to prevent entering negative values?
-  export function motor(motor: LRB, direction: Direction, speed: number) {
-    if (motor == 0) {
+  export function motor(m: LRB, d: Direction, speed: number) {
+    if (m == 0) {
       left_speed = speed + left_bias;
-      if (direction == 0) {
+      if (d == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, left_speed);
       }
-      if (direction == 1) {
+      if (d == 1) {
         i2c_w(0x01, left_speed);
         i2c_w(0x02, 0);
       }
     }
-    if (motor == 1) {
+    if (m == 1) {
       right_speed = speed + right_bias;
-      if (direction == 0) {
+      if (d == 0) {
         i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
       }
-      if (direction == 1) {
+      if (d == 1) {
         i2c_w(0x03, 0);
         i2c_w(0x04, right_speed);
       }
     }
-    if (motor == 2) {
+    if (m == 2) {
       left_speed = speed + left_bias;
       right_speed = speed + right_bias;
-      if (direction == 0) {
+      if (d == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, left_speed);
         i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
       }
-      if (direction == 1) {
+      if (d == 1) {
         i2c_w(0x01, left_speed);
         i2c_w(0x02, 0);
         i2c_w(0x03, 0);
