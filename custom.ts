@@ -52,7 +52,6 @@ namespace SmartCar {
   //% block="motor $m richting $d snelheid $s"
   //% group="Motor" weight=90 blockGap=4
   //% s.min=0 s.max=255
-  // how to prevent entering negative values?
   export function motor(m: LRB, d: Direction, speed: number) {
     if (m == 0) {
       left_speed = speed + left_bias;
@@ -201,7 +200,6 @@ namespace SmartCar {
 
   //% block="LED $led uit" 
   //% group="LED" weight=60 blockGap=8
-  // LED lights are common anode, 255 is off and 0 is brightest
   export function reset_led(led: LRB) {
     switch (led) {
       case 0:
