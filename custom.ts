@@ -52,6 +52,7 @@ namespace SmartCar {
   //% block="motor $motor richting $direction snelheid $speed"
   //% group="Motor" weight=90 blockGap=4
   //% speed.min=0 speed.max=255
+  // how to prevent entering negative values?
   export function motor(motor: LRB, direction: Direction, speed: number) {
     if (motor == 0) {
       left_speed = speed + left_bias;
