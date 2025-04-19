@@ -16,11 +16,11 @@ enum LRB {
   //% block="beide"
   B = 2
 }
-enum Direction {
+enum Dir {
   //% block="vooruit"
-  D0 = 0,
+  CW = 0,
   //% block="achteruit"
-  D1 = 1
+  CCW = 1
 }
 enum RGB {
   //% block=rood
@@ -49,42 +49,42 @@ namespace SmartCar {
   let left_speed = 0;
   let right_speed = 0;
 
-  //% block="motor $m richting $d snelheid $s"
+  //% block="motor $motor richting $dir snelheid $speed"
   //% group="Motor" weight=90 blockGap=4
-  //% s.min=0 s.max=255
-  export function motor(m: LRB, d: Direction, speed: number) {
-    if (m == 0) {
+  //% speed.min=0 speed.max=255
+  export function motor(motor: LRB, dir: Dir, speed: number) {
+    if (motor == 0) {
       left_speed = speed + left_bias;
-      if (d == 0) {
+      if (dir == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, left_speed);
       }
-      if (d == 1) {
+      if (dir == 1) {
         i2c_w(0x01, left_speed);
         i2c_w(0x02, 0);
       }
     }
-    if (m == 1) {
+    if (motor == 1) {
       right_speed = speed + right_bias;
-      if (d == 0) {
+      if (dir == 0) {
         i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
       }
-      if (d == 1) {
+      if (dir == 1) {
         i2c_w(0x03, 0);
         i2c_w(0x04, right_speed);
       }
     }
-    if (m == 2) {
+    if (motor == 2) {
       left_speed = speed + left_bias;
       right_speed = speed + right_bias;
-      if (d == 0) {
+      if (dir == 0) {
         i2c_w(0x01, 0);
         i2c_w(0x02, left_speed);
         i2c_w(0x03, right_speed);
         i2c_w(0x04, 0);
       }
-      if (d == 1) {
+      if (dir == 1) {
         i2c_w(0x01, left_speed);
         i2c_w(0x02, 0);
         i2c_w(0x03, 0);
@@ -152,14 +152,14 @@ namespace SmartCar {
 
   //% block="spin %LR met snelheid %speed gedurende %ms ms"
   //% group="Motor"
-  export function spin(direction: LR, speed: number, ms: number): void {
+  export function spin(dir: LR, speed: number, ms: number): void {
     left_speed = speed + left_bias;
     right_speed = speed + right_bias;
-    if (direction == 0) {
+    if (dir == 0) {
       motor(0, 1, left_speed);
       motor(1, 0, right_speed);
     }
-    if (direction == 1) {
+    if (dir == 1) {
       motor(0, 0, left_speed);
       motor(1, 1, right_speed);
     }
@@ -303,3 +303,4 @@ function i2c_w(reg: number, value: number) {
   buf[1] = value
   pins.i2cWriteBuffer(i2c_addr, buf)
 }
+
